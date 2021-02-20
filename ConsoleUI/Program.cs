@@ -9,18 +9,44 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-          CarManager carManager=new CarManager(new EfCarDal());
+            CarManagerTest();
 
-            Console.WriteLine("Araç No  Özellik            Kiralama Bedeli");
-            foreach (var Car in carManager.GetAll())
-             {
-                
-                Console.WriteLine("{0}        {1}          {2}",Car.CarId, Car.Description,Car.DailyPrice);
-                
-                
+            // BrandTest();
+
+            //CarColorTest();
+
+        }
+
+        private static void CarColorTest()
+        {
+            CarColorManager carColorManager = new CarColorManager(new EfCarColorDal());
+            foreach (var carColor in carColorManager.GetAll())
+            {
+                Console.WriteLine(carColor.ColorName);
             }
-            
-            
+        }
+
+        private static void BrandTest()
+        {
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            foreach (var brand in brandManager.GetAll())
+            {
+                Console.WriteLine(brand.BrandName);
+            }
+        }
+
+        private static void CarManagerTest()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+
+            Console.WriteLine("Araç No  Özellik          Marka         Kiralama Bedeli");
+            foreach (var Car in carManager.GetCarDetails())
+            {
+
+                Console.WriteLine("    {0}    {1}           {2}          {3}", Car.CarId, Car.Description,Car.BrandName, Car.DailyPrice);
+
+
+            }
         }
     }
 }

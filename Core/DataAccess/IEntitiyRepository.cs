@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace DataAccess.Abstract
+namespace Core.DataAccess
 {
-    public interface IEntitiyRepository<T>// T türonve veri alan bir nesne
+    public interface IEntitiyRepository<T> where T:class,IEntity,new()// T türnde veri alan bir nesne
     {
         //GetAll da filtre ekleyerek sitediğimizi geirebiliriz bunun için Expression kullanırız
         List<T> GetAll(Expression<Func<T, bool>> filter = null);//kırmzı alt çizgi Product seçiliyken ampulden add referance to entites e bas

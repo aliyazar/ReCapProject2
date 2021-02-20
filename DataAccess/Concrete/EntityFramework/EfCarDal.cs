@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,63 +11,28 @@ using System.Text;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, RecapProjectCarDataBase>, ICarDal
     {
-        public void Add(Car entity)
+        public List<CarDetailDto> GetCarDetails()
         {
-            using (RecapProjectCarDataBase context = new RecapProjectCarDataBase())// using bittiği anda bellek temizlenir
+            using (RecapProjectCarDataBase context=new RecapProjectCarDataBase())
             {
-                var addedEntity = context.Entry(entity);// gelen entitiy ti addetEntity değişkkenine at
-                addedEntity.State = EntityState.Added;//eklenecek nesnenin stateini  ekle
-                context.SaveChanges();//kaydet
-            }
-
-        }
-
-        public void Delete(Car entity)
-        {
-            using (RecapProjectCarDataBase context = new RecapProjectCarDataBase())// using bittiği anda bellek temizlenir
-            {
-                var DeletedEntity = context.Entry(entity);// gelen entitiy ti addetEntity değişkkenine at
-                DeletedEntity.State = EntityState.Deleted;//silinecek nesnenin stateini  ekle
-                context.SaveChanges();//kaydet
-            }
-        }
-
-        public Car Get(Expression<Func<Car, bool>> filter)
-        {
-            using (RecapProjectCarDataBase context = new RecapProjectCarDataBase())// using bittiği anda bellek temizlenir
-            {
-                return context.Set<Car>().SingleOrDefault(filter);
-            }
-        }
-
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (RecapProjectCarDataBase context = new RecapProjectCarDataBase())
-            {
-                return filter == null    // filter null ise
-                    ? context.Set<Car>().ToList()//veritabanında ki Products sütunundaki tüm datayı listeye çevir
-                    : context.Set<Car>().Where(filter).ToList();// null değilse filteryi uygulayarak ver
-            }
-        }
+                var result = from c in context.Cars
+                             join b in context.Brands
+                             on c.BrandId equals b.BrandId
+                             select new CarDetailDto
+                             {
+                                 CarId = c.CarId,
+                                 BrandName = b.BrandName,
+                                 ModelYear = c.ModelYear,
+                                 DailyPrice = c.DailyPrice,
+                                 Description=c.Description
 
 
-        //public List<Car> GetByBrand(int brandId)
-        //{
-        //    using (RecapProjectCarDataBase context = new RecapProjectCarDataBase())
-        //    {
-        //        return context.Set<Brand>().SingleOrDefault(brandId);
-        //    }
-        //}
 
-        public void Update(Car entity)
-        {
-            using (RecapProjectCarDataBase context = new RecapProjectCarDataBase())// using bittiği anda bellek temizlenir
-            {
-                var UpdatedEntity = context.Entry(entity);// gelen entitiy ti addetEntity değişkkenine at
-                UpdatedEntity.State = EntityState.Modified;//güncellenecek nesnenin stateini  ekle
-                context.SaveChanges();//kaydet
+
+                             };
+                return result.ToList();
             }
         }
     }
