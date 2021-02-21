@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -17,16 +19,30 @@ namespace Business.Concrete
             _carColorDal = carColorDal;
         }
 
-        public List<CarColor> GetAll()
+        public IResult Add(CarColor carColor)
         {
-            //iş kodları yazılacak
-            return _carColorDal.GetAll();
+            _carColorDal.Add(carColor);
+            return new Result(true, Messages.CarColorAdded);
+
+
+
         }
 
-        public CarColor GetById(int colorId)
+        public IDataResult<List<CarColor>> GetAll()
         {
             //iş kodları yazılacak
-            return _carColorDal.Get(c => c.ColorId == colorId);
+            return new DataResult<List<CarColor>>(_carColorDal.GetAll(), true, Messages.ColorListed);
+        }
+
+        public DataResult<CarColor> GetById(int colorId)
+        {
+            //iş kodları yazılacak
+            return new SuccessDataResult<CarColor>(_carColorDal.Get(c => c.ColorId == colorId));
+        }
+
+        IDataResult<CarColor> ICarColorService.GetById(int colorId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -11,13 +11,14 @@ namespace ConsoleUI
         {
             CarManagerTest();
 
-            // BrandTest();
+             //BrandTest();
 
-            //CarColorTest();
+          //CarColorTest();
 
         }
-
-        private static void CarColorTest()
+        
+        /*buradaki hatayı bulamadım
+         * private static void CarColorTest()
         {
             CarColorManager carColorManager = new CarColorManager(new EfCarColorDal());
             foreach (var carColor in carColorManager.GetAll())
@@ -25,7 +26,7 @@ namespace ConsoleUI
                 Console.WriteLine(carColor.ColorName);
             }
         }
-
+        */
         private static void BrandTest()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());

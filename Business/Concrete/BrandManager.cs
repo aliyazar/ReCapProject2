@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -16,6 +18,12 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
+        public IResult Add(Brand brand)
+        {
+            _brandDal.Add(brand);
+            return new Result(true, Messages.BrandAdded);
+        }
+
         public List<Brand> GetAll()
         {
             //iş kodları yazılacak
@@ -26,6 +34,16 @@ namespace Business.Concrete
         {
             //İş kodları yazılacak
             return _brandDal.Get(b => b.BrandId == brandId);
+        }
+
+        IDataResult<List<Brand>> IBrandService.GetAll()
+        {
+            return new DataResult<List<Brand>>(_brandDal.GetAll(), true, Messages.BrandListed);
+        }
+
+        IDataResult<Brand> IBrandService.GetById(int brandId)
+        {
+            return new SuccessDataResult<Brand>(_brandDal.Get(c => c.BrandId == brandId));
         }
     }
 }

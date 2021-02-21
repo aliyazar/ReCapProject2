@@ -12,5 +12,9 @@ namespace Business.Constants
         public static string DailyPrice = "Kiralama Fiyatı Sıfır olamaz";
         public static string CompanyClosed = "Şirket Kapalı ";
         public static string CarListed = "Araçlar Listelendi";
+        public static string BrandAdded = "Marka Eklendi";
+        public static string BrandListed = "Markalar Listelendi";
+        public static string ColorListed = "Araç Renkleri Listelendi";
+        public static string CarColorAdded = "Bu renk zaten var";
     }
 }
