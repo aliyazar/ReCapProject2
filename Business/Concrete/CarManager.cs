@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -18,16 +20,36 @@ namespace Business.Concrete
             _CarDal = carDal;
         }
 
-        public List<Car> GetAll()
+        public IResult Add(Car car)//return edilecek birşey olmalı
+        {
+            if (car.DailyPrice<0)
+            {
+                return new ErrorResult(Messages.DailyPrice);
+            }
+            _CarDal.Add(car);
+            return new Result(true,Messages.CarAdded);//iki parametre ile iş yapsın
+        }// Resultın construktorı yapılandırılmadığı için kızıyor ampulden generate Constructor in Result yap ve F12 ile içeriği gör
+
+        public IDataResult<List<Car>> GetAll()
         {
             // burada iş kodları yazılacak
-            return _CarDal.GetAll();//iş kodalrı kurallarına uygunsa bana araçları verebilirsin 
+            if (DateTime.Now.Hour==22)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.CompanyClosed);
+            }
+
+            return new DataResult<List<Car>>(_CarDal.GetAll(),true,Messages.CarListed);//iş kodalrı kurallarına uygunsa bana araçları verebilirsin 
             
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<Car> GetById(int carId)
         {
-            return _CarDal.GetCarDetails();
+            return new SuccessDataResult<Car>(_CarDal.Get(c => c.CarId == carId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_CarDal.GetCarDetails());
         }
     }
 }
