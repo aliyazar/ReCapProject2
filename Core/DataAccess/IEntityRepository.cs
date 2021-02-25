@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Core.DataAccess
 {
-    public interface IEntitiyRepository<T> where T:class,IEntity,new()// T türnde veri alan bir nesne
+    public interface IEntityRepository<T> where T:class,IEntity,new()// T türnde veri alan bir nesne
     {
         //GetAll da filtre ekleyerek sitediğimizi geirebiliriz bunun için Expression kullanırız
         List<T> GetAll(Expression<Func<T, bool>> filter = null);//kırmzı alt çizgi Product seçiliyken ampulden add referance to entites e bas

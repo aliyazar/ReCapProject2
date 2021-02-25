@@ -1,6 +1,7 @@
 ﻿using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
+using Entities.Concrete;
 using System;
 
 namespace ConsoleUI
@@ -9,14 +10,18 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManagerTest();
 
-             //BrandTest();
+            RentalTest();
+            // UserTest(); 
 
-          //CarColorTest();
+            // CarManagerTest();
+
+            //BrandTest();
+
+            //CarColorTest();
 
         }
-        
+
         /*buradaki hatayı bulamadım
          * private static void CarColorTest()
         {
@@ -27,6 +32,22 @@ namespace ConsoleUI
             }
         }
         */
+        private static void RentalTest()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            rentalManager.Add(new Rental {Id=20, CustomerId=2,CarId=3,RentDate=new DateTime(2020,5,10),ReturnDate= new DateTime(2020, 5, 18) });
+
+        }
+
+        private static void UserTest()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+            
+            userManager.Add(new User { FirstName = "Ahmet", LastName = "Dere", Email = "q@r.com", Password = "dela", Id = 11 });
+
+        }
+
+
         private static void BrandTest()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());

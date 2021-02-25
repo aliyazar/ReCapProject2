@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Core.DataAccess.EntityFramework
 {
-    public class EfEntityRepositoryBase <TEntity,TContext>:IEntitiyRepository<TEntity>//bu base alanı IEntitiyRepository deki tüm operasyonları sağlaması lazım o yüzden <TEntity> ile implemnente edilmeli
+    public class EfEntityRepositoryBase <TEntity,TContext>:IEntityRepository<TEntity>//bu base alanı IEntitiyRepository deki tüm operasyonları sağlaması lazım o yüzden <TEntity> ile implemnente edilmeli
         where TEntity:class,IEntity,new()// kısıtlamalarımızı yazıyoruz
         where TContext:DbContext,new()//kafana göre her classı yazama diye kurall veriyoruz
     {
